@@ -525,12 +525,12 @@
       console.error('Invalid text provided for speech synthesis');
       return;
     }
-  
+
     if ('speechSynthesis' in window) {
       try {
         // Stop any ongoing speech first
         window.speechSynthesis.cancel();
-        
+
         // Split text into sentences and filter out lone punctuation marks
         const sentences = text.split(/([.!?]+[\s\n]+|$)/)
           .filter(Boolean)
@@ -556,11 +556,11 @@
               chunks.push(currentChunk);
               currentChunk = '';
             }
-            
+
             // Split long sentences at word boundaries
             const words = cleanSentence.split(/\s+/);
             let tempChunk = '';
-            
+
             for (const word of words) {
               if ((tempChunk + ' ' + word).length <= 200) {
                 tempChunk = tempChunk + (tempChunk ? ' ' : '') + word;
@@ -572,7 +572,7 @@
             if (tempChunk) chunks.push(tempChunk);
           }
         }
-        
+
         // Push final chunk if exists
         if (currentChunk) {
           chunks.push(currentChunk);
@@ -582,15 +582,15 @@
         const validChunks = chunks
           .map(chunk => chunk.trim())
           .filter(chunk => chunk && !/^[.!?,;:\s]+$/.test(chunk));
-  
+
         let currentChunkIndex = 0;
         let isSpeaking = true;
-  
+
         function speakNextChunk() {
           if (currentChunkIndex < validChunks.length && isSpeaking) {
             const utterance = new SpeechSynthesisUtterance(validChunks[currentChunkIndex]);
             console.log('Speaking:', validChunks[currentChunkIndex]);
-            
+
             utterance.onend = () => {
               currentChunkIndex++;
               if (currentChunkIndex >= validChunks.length) {
@@ -603,13 +603,13 @@
                 speakNextChunk();
               }
             };
-  
+
             utterance.onerror = (event) => {
               console.error('Speech synthesis error:', event);
               currentChunkIndex++;
               speakNextChunk();
             };
-  
+
             window.speechSynthesis.speak(utterance);
           }
         }
@@ -625,7 +625,7 @@
           }
           window.a11yWidget.isReading = false;
         };
-  
+
         speakNextChunk();
       } catch (error) {
         console.error('Speech synthesis failed:', error);
@@ -953,7 +953,7 @@
     const parentText = img.parentElement?.textContent?.trim();
     const prevSibling = img.previousElementSibling?.textContent?.trim();
     const nextSibling = img.nextElementSibling?.textContent?.trim();
-    
+
     // Try to use the most relevant text source
     if (cleanName && cleanName.length > 3 && !/^[0-9]+$/.test(cleanName)) {
       return `Image of ${cleanName}`;
@@ -1038,7 +1038,7 @@
             }
 
             const altText = await response.json();
-            
+
             // Only update if the current alt text is temporary
             if (img.hasAttribute('data-temp-alt')) {
               img.setAttribute('alt', altText['alt']);
@@ -1080,7 +1080,7 @@
   // Handle page unload/reload
   window.addEventListener("beforeunload", cleanup);
   window.addEventListener("unload", cleanup);
-  
+
   // Handle visibility change (tab switching/minimizing)
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
@@ -1091,30 +1091,30 @@
   function fixHeadingOrder() {
     const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'));
     let lastActualLevel = 0;
-    
+
     headings.forEach((heading) => {
       const currentLevel = parseInt(heading.tagName.substring(1));
-      
+
       // Skip the first heading
       if (lastActualLevel === 0) {
         lastActualLevel = currentLevel;
         return;
       }
-      
+
       // If heading level skips more than one level
       if (currentLevel > lastActualLevel + 1) {
         // Create new element with correct level
         const newHeading = document.createElement(`h${lastActualLevel + 1}`);
         newHeading.innerHTML = heading.innerHTML;
         newHeading.className = heading.className;
-        
+
         // Copy all attributes
         Array.from(heading.attributes).forEach(attr => {
           if (attr.name !== 'class') {
             newHeading.setAttribute(attr.name, attr.value);
           }
         });
-        
+
         // Replace old heading with new one
         heading.parentNode.replaceChild(newHeading, heading);
         lastActualLevel = lastActualLevel + 1;
@@ -1155,24 +1155,24 @@
 
   function fixLinkNames() {
     const links = document.querySelectorAll('a');
-    
+
     links.forEach((link) => {
       // Skip links that are part of the accessibility widget
       if (link.closest('#accessibility-widget')) return;
-      
+
       // Check if link has text content
       const visibleText = link.textContent.trim();
-      
+
       // Check if link has aria-label
       const ariaLabel = link.getAttribute('aria-label');
-      
+
       // Check if link has title
       const title = link.getAttribute('title');
-      
+
       // Check if link contains an image
       const image = link.querySelector('img');
       const imageAlt = image ? image.getAttribute('alt') : null;
-      
+
       // If link has no discernible name
       if (!visibleText && !ariaLabel && !title && !imageAlt) {
         // Try to generate a name from the URL
@@ -1186,24 +1186,24 @@
         } catch (e) {
           urlText = link.href;
         }
-        
+
         // Clean up the URL text
         urlText = urlText
           .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
           .replace(/\s+/g, ' ') // Remove extra spaces
           .trim();
-        
+
         // Capitalize first letter of each word
         urlText = urlText
           .split(' ')
           .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
           .join(' ');
-        
+
         // Set aria-label if we generated a name
         if (urlText) {
           link.setAttribute('aria-label', `Link to ${urlText}`);
         }
-        
+
         // If link is empty (no text or images), add span with generated text
         if (!link.textContent.trim() && !link.querySelector('img')) {
           const span = document.createElement('span');
@@ -1212,14 +1212,14 @@
           link.appendChild(span);
         }
       }
-      
+
       // If link contains an image without alt text
       if (image && (!image.hasAttribute('alt') || !image.getAttribute('alt').trim())) {
         let imageAltText = '';
-        
+
         // Try to generate alt text from parent link's text/aria-label/title
         imageAltText = visibleText || ariaLabel || title || 'Image';
-        
+
         image.setAttribute('alt', imageAltText);
       }
     });
@@ -1256,7 +1256,7 @@
 
   function fixButtonAccessibility() {
     const buttons = document.querySelectorAll('button:not([aria-label]):not([title]), input[type="button"]:not([aria-label]):not([title]), input[type="submit"]:not([aria-label]):not([title]), input[type="reset"]:not([aria-label]):not([title])');
-    
+
     buttons.forEach((button) => {
       // Skip buttons that are part of the accessibility widget
       if (button.closest('#accessibility-widget')) return;
@@ -1347,13 +1347,13 @@
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length) {
         mutation.addedNodes.forEach((node) => {
-          if (node.nodeName === 'BUTTON' || 
-              (node.nodeType === 1 && (
-                node.querySelector('button') ||
-                node.querySelector('input[type="button"]') ||
-                node.querySelector('input[type="submit"]') ||
-                node.querySelector('input[type="reset"]')
-              ))
+          if (node.nodeName === 'BUTTON' ||
+            (node.nodeType === 1 && (
+              node.querySelector('button') ||
+              node.querySelector('input[type="button"]') ||
+              node.querySelector('input[type="submit"]') ||
+              node.querySelector('input[type="reset"]')
+            ))
           ) {
             shouldFix = true;
           }
@@ -1372,16 +1372,16 @@
 
   function fixIframeAccessibility() {
     const frames = document.querySelectorAll('frame:not([title]), iframe:not([title])');
-    
+
     frames.forEach((frame) => {
       let frameTitle = '';
-      
+
       // Try to get title from various sources
       try {
         // Check if frame has a source
         if (frame.src) {
           const url = new URL(frame.src);
-          
+
           // Try to generate title from URL
           if (url.pathname !== '/') {
             frameTitle = url.pathname
@@ -1392,23 +1392,23 @@
               .replace(/([A-Z])/g, ' $1') // Add spaces before capital letters
               .trim();
           }
-          
+
           // If no pathname, use hostname
           if (!frameTitle && url.hostname) {
             frameTitle = url.hostname
               .replace('www.', '')
               .replace(/\.[^.]+$/, ''); // Remove TLD
           }
-          
+
           // Capitalize words
           frameTitle = frameTitle
             .split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(' ');
-          
+
           frameTitle += ' content';
         }
-        
+
         // Check for nearby context
         if (!frameTitle) {
           // Look for preceding heading or label
@@ -1417,13 +1417,13 @@
             frameTitle = prevElement.textContent.trim();
           }
         }
-        
+
         // If still no title, try to get it from the frame's content
         if (!frameTitle && frame.contentDocument) {
           const frameDocument = frame.contentDocument;
-          frameTitle = frameDocument.title || 
-                      frameDocument.querySelector('h1')?.textContent ||
-                      frameDocument.querySelector('h2')?.textContent;
+          frameTitle = frameDocument.title ||
+            frameDocument.querySelector('h1')?.textContent ||
+            frameDocument.querySelector('h2')?.textContent;
         }
 
         // Default fallback
@@ -1434,13 +1434,13 @@
 
         // Set the title attribute
         frame.setAttribute('title', frameTitle);
-        
+
         // Also set aria-label for better screen reader support
         frame.setAttribute('aria-label', frameTitle);
-        
+
         // Ensure frame is keyboard accessible if interactive
-        if (frame.contentDocument && 
-            frame.contentDocument.querySelector('button, a, input, select, textarea')) {
+        if (frame.contentDocument &&
+          frame.contentDocument.querySelector('button, a, input, select, textarea')) {
           frame.setAttribute('tabindex', '0');
         }
 
@@ -1467,7 +1467,7 @@
       if (mutation.addedNodes.length) {
         mutation.addedNodes.forEach((node) => {
           if (node.nodeName === 'IFRAME' || node.nodeName === 'FRAME' ||
-              (node.nodeType === 1 && node.querySelector('iframe, frame'))) {
+            (node.nodeType === 1 && node.querySelector('iframe, frame'))) {
             shouldFix = true;
           }
         });
@@ -1484,21 +1484,24 @@
   });
 
   function fixTouchTargets() {
-    // Minimum sizes (following WCAG guidelines)
     const MIN_TARGET_SIZE = 44; // pixels
     const MIN_TARGET_SPACING = 8; // pixels
-    
-    // Query all interactive elements
+
+    // Updated selector to exclude navigation menu items
     const touchTargets = document.querySelectorAll(`
-      a, button, input, select, textarea,
-      [role="button"],
-      [role="link"],
-      [role="menuitem"],
-      [role="tab"],
-      [role="checkbox"],
-      [role="radio"],
-      [role="switch"],
-      [tabindex="0"]
+      a:not(nav a):not(.nav-link):not(.navbar-brand):not(.dropdown-item), 
+      button:not(nav button), 
+      input, 
+      select, 
+      textarea,
+      [role="button"]:not(nav [role="button"]),
+      [role="link"]:not(nav [role="link"]),
+      [role="menuitem"]:not(nav [role="menuitem"]),
+      [role="tab"]:not(nav [role="tab"]),
+      [role="checkbox"]:not(nav [role="checkbox"]),
+      [role="radio"]:not(nav [role="radio"]),
+      [role="switch"]:not(nav [role="switch"]),
+      [tabindex="0"]:not(nav [tabindex="0"])
     `);
 
     touchTargets.forEach((target) => {
@@ -1507,7 +1510,7 @@
 
       const rect = target.getBoundingClientRect();
       const computedStyle = window.getComputedStyle(target);
-      
+
       // Store original styles
       if (!target.hasAttribute('data-original-touch-styles')) {
         target.setAttribute('data-original-touch-styles', JSON.stringify({
@@ -1523,14 +1526,14 @@
         // Calculate required padding
         const widthDiff = Math.max(0, MIN_TARGET_SIZE - rect.width);
         const heightDiff = Math.max(0, MIN_TARGET_SIZE - rect.height);
-        
+
         // Apply minimum size using padding if needed
         if (widthDiff > 0) {
           const horizontalPadding = Math.ceil(widthDiff / 2);
           target.style.paddingLeft = `${horizontalPadding}px`;
           target.style.paddingRight = `${horizontalPadding}px`;
         }
-        
+
         if (heightDiff > 0) {
           const verticalPadding = Math.ceil(heightDiff / 2);
           target.style.paddingTop = `${verticalPadding}px`;
@@ -1581,9 +1584,19 @@
     const mobileStyles = document.createElement('style');
     mobileStyles.innerHTML = `
       @media (max-width: 768px) {
-        a, button, input[type="button"], input[type="submit"], input[type="reset"],
-        [role="button"], [role="link"], [role="menuitem"], [role="tab"],
-        [role="checkbox"], [role="radio"], [role="switch"], [tabindex="0"] {
+        a:not(nav a):not(.nav-link):not(.navbar-brand):not(.dropdown-item),
+        button:not(nav button),
+        input[type="button"]:not(nav input[type="button"]),
+        input[type="submit"]:not(nav input[type="submit"]),
+        input[type="reset"]:not(nav input[type="reset"]),
+        [role="button"]:not(nav [role="button"]),
+        [role="link"]:not(nav [role="link"]),
+        [role="menuitem"]:not(nav [role="menuitem"]),
+        [role="tab"]:not(nav [role="tab"]),
+        [role="checkbox"]:not(nav [role="checkbox"]),
+        [role="radio"]:not(nav [role="radio"]),
+        [role="switch"]:not(nav [role="switch"]),
+        [tabindex="0"]:not(nav [tabindex="0"]) {
           min-width: ${MIN_TARGET_SIZE}px !important;
           min-height: ${MIN_TARGET_SIZE}px !important;
           margin: ${MIN_TARGET_SPACING}px !important;
