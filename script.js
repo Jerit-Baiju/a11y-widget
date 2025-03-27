@@ -1,4 +1,4 @@
-// v2.3.1
+// v2.3.3
 (function () {
   const style = document.createElement("style");
   style.innerHTML = `
@@ -169,6 +169,30 @@
       color: white !important;
     }
 
+    /* Reset Button */
+    #reset-all-settings {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    #reset-all-settings:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+
     /* Footer */
     #accessibility-widget .footer {
       margin-top: 20px;
@@ -310,6 +334,14 @@
         <button id="hide-images" class="navigation-controls">Toggle Images</button>
       </div>
     </div>
+
+    <button id="reset-all-settings">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+        <path d="M3 3v5h5"></path>
+      </svg>
+      Reset All Settings
+    </button>
 
     <div class="footer">
       Developed by <a href="https://mariancollege.org" target="_blank">mariancollege.org</a> |
@@ -838,6 +870,7 @@
         }
       },
       "big-cursor": () => enableBigCursor(),
+      "reset-all-settings": resetAllSettings,
     };
 
     Object.entries(elements).forEach(([id, handler]) => {
@@ -849,6 +882,85 @@
   }
 
   initializeEventListeners();
+
+  // Function to reset all accessibility settings
+  function resetAllSettings() {
+    // Confirm reset
+    if (!confirm("Reset all accessibility settings? This will revert all changes made with this widget.")) {
+      return;
+    }
+    
+    // Stop any ongoing speech
+    stopReading();
+    
+    // Reset font size
+    if (localStorage.getItem("fontSizeStep")) {
+      const currentStep = parseFloat(localStorage.getItem("fontSizeStep"));
+      if (currentStep !== 0) {
+        adjustFontSize(-currentStep);
+        localStorage.removeItem("fontSizeStep");
+      }
+    }
+    
+    // Reset dyslexic font
+    if (parseInt(localStorage.getItem('isDyslexicFontEnabled')) === 1) {
+      enableDyslexicFont(true);
+    }
+    
+    // Reset line height
+    if (parseInt(localStorage.getItem('isLineHeightEnabled')) === 1) {
+      adjustLineHeight();
+    }
+    
+    // Reset letter spacing
+    if (parseInt(localStorage.getItem('isLetterSpacingEnabled')) === 1) {
+      adjustLetterSpacing();
+    }
+    
+    // Reset high contrast
+    if (parseInt(localStorage.getItem('isContrastEnabled')) === 1) {
+      adjustContrast(true);
+    }
+    
+    // Reset highlighted links
+    if (parseInt(localStorage.getItem('isHighlightLinks')) === 1) {
+      enableHighlightLinks(true);
+    }
+    
+    // Reset big cursor
+    if (parseInt(localStorage.getItem('isBigCursorEnabled')) === 1) {
+      enableBigCursor(true);
+    }
+    
+    // Reset inverted colors
+    if (document.body.classList.contains('inverted-colors')) {
+      document.body.classList.remove('inverted-colors');
+      document.body.childNodes.forEach(child => {
+        if (child.nodeType === 1) {
+          child.classList.remove('inverted-colors');
+        }
+      });
+    }
+    
+    // Reset hidden images
+    if (document.body.classList.contains('hide-images')) {
+      document.body.classList.remove('hide-images');
+      document.querySelectorAll('div').forEach(div => {
+        div.classList.remove('hide-images');
+      });
+    }
+    
+    // Reset saturation
+    document.body.style.removeProperty('--saturation');
+    document.body.childNodes.forEach(child => {
+      if (child.nodeType === 1) {
+        child.style.removeProperty('filter');
+      }
+    });
+    
+    // Show success message
+    alert("All accessibility settings have been reset to default.");
+  }
 
   function extractUniqueDocumentText() {
     const uniqueTexts = new Set();
