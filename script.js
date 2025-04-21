@@ -1757,4 +1757,29 @@
     subtree: true
   });
 
+  // --- Custom: Send active page URL to API after widget loads ---
+  (function sendActiveUrlToApi() {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const raw = JSON.stringify({
+        url: window.location.href
+      });
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
+      fetch("https://68045b52c994b05b2271.fra.appwrite.run", requestOptions)
+        .then((response) => response.text())
+        .then(() => {
+          /* Process completed silently */
+        })
+        .catch((error) => console.error("Active URL API error:", error));
+    } catch (e) {
+      console.error("Failed to send active URL to API", e);
+    }
+  })();
+
 })();
