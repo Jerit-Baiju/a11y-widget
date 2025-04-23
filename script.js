@@ -889,10 +889,10 @@
     if (!confirm("Reset all accessibility settings? This will revert all changes made with this widget.")) {
       return;
     }
-    
+
     // Stop any ongoing speech
     stopReading();
-    
+
     // Reset font size
     if (localStorage.getItem("fontSizeStep")) {
       const currentStep = parseFloat(localStorage.getItem("fontSizeStep"));
@@ -901,37 +901,37 @@
         localStorage.removeItem("fontSizeStep");
       }
     }
-    
+
     // Reset dyslexic font
     if (parseInt(localStorage.getItem('isDyslexicFontEnabled')) === 1) {
       enableDyslexicFont(true);
     }
-    
+
     // Reset line height
     if (parseInt(localStorage.getItem('isLineHeightEnabled')) === 1) {
       adjustLineHeight();
     }
-    
+
     // Reset letter spacing
     if (parseInt(localStorage.getItem('isLetterSpacingEnabled')) === 1) {
       adjustLetterSpacing();
     }
-    
+
     // Reset high contrast
     if (parseInt(localStorage.getItem('isContrastEnabled')) === 1) {
       adjustContrast(true);
     }
-    
+
     // Reset highlighted links
     if (parseInt(localStorage.getItem('isHighlightLinks')) === 1) {
       enableHighlightLinks(true);
     }
-    
+
     // Reset big cursor
     if (parseInt(localStorage.getItem('isBigCursorEnabled')) === 1) {
       enableBigCursor(true);
     }
-    
+
     // Reset inverted colors
     if (document.body.classList.contains('inverted-colors')) {
       document.body.classList.remove('inverted-colors');
@@ -941,7 +941,7 @@
         }
       });
     }
-    
+
     // Reset hidden images
     if (document.body.classList.contains('hide-images')) {
       document.body.classList.remove('hide-images');
@@ -949,7 +949,7 @@
         div.classList.remove('hide-images');
       });
     }
-    
+
     // Reset saturation
     document.body.style.removeProperty('--saturation');
     document.body.childNodes.forEach(child => {
@@ -957,7 +957,7 @@
         child.style.removeProperty('filter');
       }
     });
-    
+
     // Show success message
     alert("All accessibility settings have been reset to default.");
   }
@@ -1762,13 +1762,9 @@
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      const raw = JSON.stringify({
-        url: window.location.href
-      });
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
-        body: raw,
         redirect: "follow"
       };
       fetch("https://68045b52c994b05b2271.fra.appwrite.run", requestOptions)
