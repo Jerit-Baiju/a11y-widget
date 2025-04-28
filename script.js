@@ -4,8 +4,6 @@
 
   // Get position attribute from script tag or use default "bottom-right"
   const positionAttribute = document.currentScript.getAttribute('position') || 'bottom-right';
-  console.log("position is ", positionAttribute);
-
   // Parse position to set toggle button and widget positioning
   const positions = {
     'top-left': { button: 'top: 25px; left: 25px;', widget: 'top: 90px; left: 25px;' },
