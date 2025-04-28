@@ -1,12 +1,27 @@
-// v2.3.4
+// v2.4.0
 (function () {
   const style = document.createElement("style");
+
+  // Get position attribute from script tag or use default "bottom-right"
+  const positionAttribute = document.currentScript.getAttribute('position') || 'bottom-right';
+  console.log("position is ", positionAttribute);
+
+  // Parse position to set toggle button and widget positioning
+  const positions = {
+    'top-left': { button: 'top: 25px; left: 25px;', widget: 'top: 90px; left: 25px;' },
+    'top-right': { button: 'top: 25px; right: 25px;', widget: 'top: 90px; right: 25px;' },
+    'bottom-left': { button: 'bottom: 25px; left: 25px;', widget: 'bottom: 90px; left: 25px;' },
+    'bottom-right': { button: 'bottom: 25px; right: 25px;', widget: 'bottom: 90px; right: 25px;' }
+  };
+
+  // Get position CSS or use default (bottom-right)
+  const positionCSS = positions[positionAttribute] || positions['bottom-right'];
+
   style.innerHTML = `
     /* Accessibility Button */
     #accessibility-toggle {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
+      ${positionCSS.button}
       z-index: 9999;
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       color: white;
@@ -36,8 +51,7 @@
     #accessibility-widget {
       display: none;
       position: fixed;
-      bottom: 90px;
-      right: 25px;
+      ${positionCSS.widget}
       z-index: 10000;
       width: min(90vw, 380px);
       background: #ffffff;
@@ -1708,11 +1722,11 @@
         [role="checkbox"]:not(nav [role="checkbox"]),
         [role="radio"]:not(nav [role="radio"]),
         [role="switch"]:not(nav [role="switch"]),
-        [tabindex="0"]:not(nav [tabindex="0"]) {
-          min-width: ${MIN_TARGET_SIZE}px !important;
-          min-height: ${MIN_TARGET_SIZE}px !important;
-          margin: ${MIN_TARGET_SPACING}px !important;
-        }
+        [tabindex="0"]:not(nav [tabindex="0"])
+      } {
+        min-width: ${MIN_TARGET_SIZE}px !important;
+        min-height: ${MIN_TARGET_SIZE}px !important;
+        margin: ${MIN_TARGET_SPACING}px !important;
       }
     `;
     document.head.appendChild(mobileStyles);

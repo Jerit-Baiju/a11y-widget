@@ -19,6 +19,7 @@ Unlike many premium accessibility widgets that can **negatively impact** your si
 - **Image Alt Text Checker**: Check whether images on the page have alt text, and report missing alt attributes.
 - **Automatic Fixes**: Automatically adds missing alt text, improves heading structure, and fixes navigation elements.
 - **Touch Target Optimization**: Ensures interactive elements meet size requirements for mobile accessibility.
+- **Customizable Position**: Set the widget to appear in any corner of the screen (top-left, top-right, bottom-left, bottom-right).
 
 ## Installation
 
@@ -31,3 +32,19 @@ Include the following `<script>` tag just before closing the `</body>` tag in yo
 ```html
 <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
 ```
+
+### Customization Options
+
+#### Widget Position
+
+You can customize the position of the accessibility toggle button by adding a `position` attribute to the script tag:
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js" position="bottom-left"></script>
+```
+
+Available position options:
+- `top-left`: Places the widget in the top left corner
+- `top-right`: Places the widget in the top right corner
+- `bottom-left`: Places the widget in the bottom left corner
+- `bottom-right`: Places the widget in the bottom right corner (default)
