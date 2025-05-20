@@ -1,4 +1,4 @@
-// v2.4.0
+// v2.4.1
 (function () {
   const style = document.createElement("style");
 
@@ -633,8 +633,6 @@
         function speakNextChunk() {
           if (currentChunkIndex < validChunks.length && isSpeaking) {
             const utterance = new SpeechSynthesisUtterance(validChunks[currentChunkIndex]);
-            console.log('Speaking:', validChunks[currentChunkIndex]);
-
             utterance.onend = () => {
               currentChunkIndex++;
               if (currentChunkIndex >= validChunks.length) {
@@ -1777,13 +1775,9 @@
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
-        redirect: "follow"
       };
       fetch("https://68045b52c994b05b2271.fra.appwrite.run", requestOptions)
         .then((response) => response.text())
-        .then(() => {
-          /* Process completed silently */
-        })
         .catch((error) => console.error("Active URL API error:", error));
     } catch (e) {
       console.error("Failed to send active URL to API", e);
