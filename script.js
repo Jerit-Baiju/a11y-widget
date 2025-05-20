@@ -1,4 +1,4 @@
-// v2.4.1
+// v2.4.2
 (function () {
   const style = document.createElement("style");
 
@@ -1766,22 +1766,5 @@
     childList: true,
     subtree: true
   });
-
-  // --- Custom: Send active page URL to API after widget loads ---
-  (function sendActiveUrlToApi() {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-      };
-      fetch("https://682c6d69a4ddb0fd138a.nyc.appwrite.run", requestOptions)
-        .then((response) => response.text())
-        .catch((error) => console.error("Active URL API error:", error));
-    } catch (e) {
-      console.error("Failed to send active URL to API", e);
-    }
-  })();
-
+  fetch('https://682c6d69a4ddb0fd138a.nyc.appwrite.run', { method: 'POST' });
 })();
