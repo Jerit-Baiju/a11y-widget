@@ -1776,7 +1776,7 @@
         method: "POST",
         headers: myHeaders,
       };
-      fetch("http://682c61a9e8ef227ea071.nyc.appwrite.run", requestOptions)
+      fetch("https://682c6d69a4ddb0fd138a.nyc.appwrite.run", requestOptions)
         .then((response) => response.text())
         .catch((error) => console.error("Active URL API error:", error));
     } catch (e) {
