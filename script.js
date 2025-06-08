@@ -1,4 +1,4 @@
-// v2.4.2
+// v2.4.3
 (function () {
   const style = document.createElement("style");
 
@@ -36,6 +36,13 @@
     }
     
     #accessibility-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(37, 99, 235, 0.3);
+    }
+
+    #accessibility-toggle:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 2px;
       transform: translateY(-2px);
       box-shadow: 0 6px 24px rgba(37, 99, 235, 0.3);
     }
@@ -293,13 +300,14 @@
   document.head.appendChild(style);
 
   // Create the toggle button
-  const toggleButton = document.createElement("div");
+  const toggleButton = document.createElement("button");
   toggleButton.id = "accessibility-toggle";
-  toggleButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"  fill="#e8eaed"><path d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM360-80v-520H120v-80h720v80H600v520h-80v-240h-80v240h-80Z"/></svg>`
-  toggleButton.style.cursor = "default";
+  toggleButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e8eaed" role="img" aria-hidden="true"><path d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM360-80v-520H120v-80h720v80H600v520h-80v-240h-80v240h-80Z"/></svg>`
+  toggleButton.setAttribute("aria-label", "Open accessibility options");
+  toggleButton.style.cursor = "pointer";
   toggleButton.style.position = "fixed";
   toggleButton.style.bottom = "20px";
-  toggleButton.style.padding = "4px"
+  toggleButton.style.padding = "4px";
   document.body.appendChild(toggleButton);
 
   // Create the widget
@@ -841,6 +849,15 @@
 
   // Event Listeners
   toggleButton.addEventListener("click", toggleWidgetVisibility);
+  
+  // Add keyboard event handling for accessibility
+  toggleButton.addEventListener("keydown", function(event) {
+    // Trigger on Enter or Space key
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleWidgetVisibility();
+    }
+  });
 
   document.addEventListener('click', function (event) {
     if (!widget.contains(event.target) && !toggleButton.contains(event.target)) {
