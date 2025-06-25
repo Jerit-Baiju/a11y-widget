@@ -54,23 +54,29 @@
 
     /* Accessibility Widget */
     #accessibility-widget {
+    flex-wrap: wrap;
       display: none;
       position: fixed;
       ${positionCSS.widget}
       z-index: 10000;
-      width: min(90vw, 380px);
+      width: auto;
+      min-width: 320px;
+      max-width: 100vw;
+      margin-left: 24px;
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
       padding: 24px;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif; 
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       max-height: calc(100vh - 120px);
       overflow-y: auto;
     }
 
     #accessibility-widget.open {
-      display: block;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
       animation: slideIn 0.3s ease-out;
     }
 
@@ -85,17 +91,18 @@
       }
     }
 
-    #accessibility-widget h2 {
-      font-size: 1.5rem;
+    #accessibility-widget span {
+      font-size: 1rem;
       font-weight: 600;
       color: #1f2937;
       margin-bottom: 20px;
       padding-bottom: 12px;
       border-bottom: 2px solid #f3f4f6;
+      width:100%;
     }
 
     .widget-section {
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
     }
 
     .widget-section-title {
@@ -105,43 +112,60 @@
       margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      display: none ;
     }
 
-    #accessibility-widget .button-group {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+   #accessibility-widget .button-group {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+     gap: 8px;
+     margin-bottom: 8px;
+     width: 100%;
+     justify-content: flex-start;
+     align-items: flex-start;
+}
 
     #accessibility-widget button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background: #f3f4f6;
-      color: #374151;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      width: 200px;
+     padding: 12px;
+     border: 1px solid #e5e7eb;
+     border-radius: 12px;
+     background: #f9fafb;
+     color: #374151;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     }
 
     #accessibility-widget button:hover {
       background: #e5e7eb;
       transform: translateY(-1px);
     }
+      
 
     /* Feature Groups */
-    .text-controls { background: #eef2ff !important; color: #4f46e5 !important; }
-    .visual-controls { background: #f0fdf4 !important; color: #16a34a !important; }
-    .reading-controls { background: #fff7ed !important; color: #ea580c !important; }
-    .navigation-controls { background: #eff6ff !important; color: #2563eb !important; }
+     .text-controls,
+      .visual-controls,
+    .reading-controls,
+    .navigation-controls {
+     background: inherit !important;
+    color: inherit !important;
+    }
 
+    @media (max-width: 600px) {
+     #accessibility-widget {
+   top: 10px !important;
+    }
+     #accessibility-widget button {
+    width: 100% !important;
+     }
+    }
     /* Summary Modal */
     .summary-overlay {
       position: fixed;
@@ -220,7 +244,23 @@
       text-align: center;
       font-size: 0.75rem;
       color: #6b7280;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: flex-end;
     }
+
+     #accessibility-widget .footer #url-text {
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: none;
+      margin-bottom: 0;
+      width: 50%;
+      text-align: right;
+      font-size: 0.6rem;
+    }
+   
 
     #accessibility-widget .footer a {
       color: #2563eb;
@@ -314,58 +354,102 @@
   const widget = document.createElement("div");
   widget.id = "accessibility-widget";
   widget.innerHTML = `
-    <h2>Accessibility Options</h2>
-    
+    <span>Accessibility Options</span>
     <div class="widget-section">
-      <div class="widget-section-title">Text Adjustments</div>
-      <div class="button-group">
-        <button id="increase-text" class="text-controls">Increase Text</button>
-        <button id="decrease-text" class="text-controls">Decrease Text</button>
-        <button id="line-height" class="text-controls">Line Height</button>
-        <button id="letter-spacing" class="text-controls">Letter Spacing</button>
-        <button id="dyslexic-font" class="text-controls">Dyslexic Font</button>
-      </div>
+     <div class="button-group">
+      <button id="increase-text" class="text-controls">
+     <svg class="a11ly_styles_icon__a9TYP" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 9V15H15V39H21V15H31V9H5ZM43 19H25V25H31V39H37V25H43V19Z" fill="#06273F"></path></svg>
+      Increase Text
+    </button>
+    <button id="decrease-text" class="text-controls">
+     <svg class="a11ly_styles_icon__a9TYP" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 9V15H15V39H21V15H31V9H5ZM43 19H25V25H31V39H37V25H43V19Z" fill="#06273F"></path></svg>
+      Decrease Text
+    </button>
+      <button id="line-height" class="text-controls">
+      <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path width="30" height="30" fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75Zm0 6.5a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+      </svg>
+      Line Height
+      </button>
+     <button id="letter-spacing" class="text-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path fill-rule="evenodd" d="M2 3.75A.75.75 0 0 1 2.75 3h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75ZM2 8a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 2 8Zm0 4.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+     </svg>
+     Letter Spacing
+     </button>
+      <button id="dyslexic-font" class="text-controls">
+      <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path fill-rule="evenodd" d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z" clip-rule="evenodd" />
+      </svg>
+      Dyslexic Font
+      </button>
+     <button id="invert-colors" class="visual-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path d="M12.613 1.258a1.535 1.535 0 0 1 2.13 2.129l-1.905 2.856a8 8 0 0 1-3.56 2.939 4.011 4.011 0 0 0-2.46-2.46 8 8 0 0 1 2.94-3.56l2.855-1.904ZM5.5 8A2.5 2.5 0 0 0 3 10.5a.5.5 0 0 1-.7.459.75.75 0 0 0-.983 1A3.5 3.5 0 0 0 8 10.5 2.5 2.5 0 0 0 5.5 8Z" />
+      </svg>
+     Invert Colors
+     </button>
+     <button id="high-contrast" class="visual-controls">
+       <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path d="M7.25 1.75a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-1.5 0v-1.5ZM11.536 2.904a.75.75 0 1 1 1.06 1.06l-1.06 1.061a.75.75 0 0 1-1.061-1.06l1.06-1.061ZM14.5 7.5a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75ZM4.464 9.975a.75.75 0 0 1 1.061 1.06l-1.06 1.061a.75.75 0 1 1-1.061-1.06l1.06-1.061ZM4.5 7.5a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75ZM5.525 3.964a.75.75 0 0 1-1.06 1.061l-1.061-1.06a.75.75 0 0 1 1.06-1.061l1.061 1.06ZM8.779 7.438a.75.75 0 0 0-1.368.366l-.396 5.283a.75.75 0 0 0 1.212.646l.602-.474.288 1.074a.75.75 0 1 0 1.449-.388l-.288-1.075.759.11a.75.75 0 0 0 .726-1.165L8.78 7.438Z" />
+     </svg>
+     High Contrast
+     </button>
+     <button id="increase-saturation" class="visual-controls">
+     <svg class="a11ly_styles_icon__a9TYP" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4C12.96 4 4 12.96 4 24C4 35.04 12.96 44 24 44C35.04 44 44 35.04 44 24C44 12.96 35.04 4 24 4ZM22 39.86C14.12 38.88 8 32.16 8 24C8 15.84 14.1 9.12 22 8.14L22 39.86Z" fill="#06273F"></path></svg>
+     Increase Saturation
+     </button>
+      <button id="decrease-saturation" class="visual-controls">
+      <svg class="a11ly_styles_icon__a9TYP" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4C12.96 4 4 12.96 4 24C4 35.04 12.96 44 24 44C35.04 44 44 35.04 44 24C44 12.96 35.04 4 24 4ZM22 39.86C14.12 38.88 8 32.16 8 24C8 15.84 14.1 9.12 22 8.14L22 39.86Z" fill="#06273F"></path></svg>
+      Decrease Saturation
+      </button>
+     <button id="toggle-reading" class="reading-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+     <path fill-rule="evenodd" d="M2 4.25A2.25 2.25 0 0 1 4.25 2h7.5A2.25 2.25 0 0 1 14 4.25v5.5A2.25 2.25 0 0 1 11.75 12h-1.312c.1.128.21.248.328.36a.75.75 0 0 1 .234.545v.345a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-.345a.75.75 0 0 1 .234-.545c.118-.111.228-.232.328-.36H4.25A2.25 2.25 0 0 1 2 9.75v-5.5Zm2.25-.75a.75.75 0 0 0-.75.75v4.5c0 .414.336.75.75.75h7.5a.75.75 0 0 0 .75-.75v-4.5a.75.75 0 0 0-.75-.75h-7.5Z" clip-rule="evenodd" />
+     </svg>
+     Read Screen
+     </button>
+     <button id="summarize" class="reading-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+     <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v2A1.5 1.5 0 0 0 3.5 7h2A1.5 1.5 0 0 0 7 5.5v-2A1.5 1.5 0 0 0 5.5 2h-2ZM3.5 9A1.5 1.5 0 0 0 2 10.5v2A1.5 1.5 0 0 0 3.5 14h2A1.5 1.5 0 0 0 7 12.5v-2A1.5 1.5 0 0 0 5.5 9h-2ZM9 3.5A1.5 1.5 0 0 1 10.5 2h2A1.5 1.5 0 0 1 14 3.5v2A1.5 1.5 0 0 1 12.5 7h-2A1.5 1.5 0 0 1 9 5.5v-2ZM10.5 9A1.5 1.5 0 0 0 9 10.5v2a1.5 1.5 0 0 0 1.5 1.5h2a1.5 1.5 0 0 0 1.5-1.5v-2A1.5 1.5 0 0 0 12.5 9h-2Z" />
+     </svg>
+     Summarize
+     </button>
+     <button id="check-images" class="reading-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path fill-rule="evenodd" d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm10.5 5.707a.5.5 0 0 0-.146-.353l-1-1a.5.5 0 0 0-.708 0L9.354 9.646a.5.5 0 0 1-.708 0L6.354 7.354a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0-.146.353V12a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V9.707ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+     </svg>
+     Check Images
+     </button>
+     <button id="highlight-links" class="navigation-controls">
+     <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+     <path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z" clip-rule="evenodd" />
+     </svg>
+     Highlight Links
+     </button>
+     <button id="big-cursor" class="navigation-controls">
+     <svg class="a11ly_styles_icon__a9TYP" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_4_483)"><path d="M27.3734 10.6514L0.857258 0.0447576C0.743678 -0.00070571 0.619252 -0.0118351 0.499407 0.0127492C0.379562 0.0373335 0.269567 0.0965503 0.183059 0.183058C0.0965504 0.269567 0.0373335 0.379562 0.0127492 0.499407C-0.0118351 0.619252 -0.000705766 0.743678 0.0447576 0.857258L10.6516 27.3741C10.6964 27.4859 10.7726 27.5824 10.8709 27.6519C10.9692 27.7215 11.0855 27.7612 11.2058 27.7663L11.2321 27.7669C11.3481 27.7669 11.4619 27.7346 11.5607 27.6736C11.6594 27.6126 11.7392 27.5253 11.7911 27.4214L15.5286 19.9474L21.3966 25.8161C21.4546 25.8742 21.5235 25.9202 21.5993 25.9517C21.6751 25.9831 21.7564 25.9993 21.8384 25.9993C21.9205 25.9993 22.0018 25.9831 22.0776 25.9517C22.1534 25.9202 22.2223 25.8742 22.2803 25.8161L25.8161 22.2807C25.9333 22.1635 25.9991 22.0045 25.9991 21.8388C25.9991 21.673 25.9333 21.5141 25.8161 21.3969L19.9473 15.5281L27.4211 11.7913C27.5289 11.7374 27.6188 11.6535 27.68 11.5496C27.7413 11.4458 27.7711 11.3265 27.7661 11.2061C27.7611 11.0857 27.7213 10.9693 27.6517 10.8709C27.582 10.7726 27.4854 10.6965 27.3734 10.6518L27.3734 10.6514Z" fill="#06273F"></path></g><defs><clipPath id="clip0_4_483"><rect width="30" height="30" fill="white"></rect></clipPath></defs></svg>
+     Big Cursor
+     </button>
+     <button id="hide-images" class="navigation-controls">
+      <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+      <path fill-rule="evenodd" d="M2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Zm10.5 5.707a.5.5 0 0 0-.146-.353l-1-1a.5.5 0 0 0-.708 0L9.354 9.646a.5.5 0 0 1-.708 0L6.354 7.354a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0-.146.353V12a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V9.707ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+     </svg>
+     Toggle Images
+     </button>
+    </div>
     </div>
 
-    <div class="widget-section">
-      <div class="widget-section-title">Visual Preferences</div>
-      <div class="button-group">
-        <button id="invert-colors" class="visual-controls">Invert Colors</button>
-        <button id="high-contrast" class="visual-controls">High Contrast</button>
-        <button id="increase-saturation" class="visual-controls">Increase Saturation</button>
-        <button id="decrease-saturation" class="visual-controls">Decrease Saturation</button>
-      </div>
-    </div>
 
-    <div class="widget-section">
-      <div class="widget-section-title">Reading Assistance</div>
-      <div class="button-group">
-        <button id="toggle-reading" class="reading-controls">Read Screen</button>
-        <button id="summarize" class="reading-controls">Summarize</button>
-        <button id="check-images" class="reading-controls">Check Images</button>
-      </div>
-    </div>
-
-    <div class="widget-section">
-      <div class="widget-section-title">Navigation</div>
-      <div class="button-group">
-        <button id="highlight-links" class="navigation-controls">Highlight Links</button>
-        <button id="big-cursor" class="navigation-controls">Big Cursor</button>
-        <button id="hide-images" class="navigation-controls">Toggle Images</button>
-      </div>
-    </div>
-
-    <button id="reset-all-settings">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="footer">
+     <button id="reset-all-settings">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
         <path d="M3 3v5h5"></path>
       </svg>
       Reset All Settings
     </button>
-
-    <div class="footer">
-      Developed by <a href="https://mariancollege.org" target="_blank">mariancollege.org</a> |
-      <a href="https://github.com/Jerit-Baiju/a11y-widget/" target="_blank">Contribute</a>
+     <span id="url-text"> Developed by <a href="https://www.deventure.co" target="_blank">www.deventure.co</a></span>
     </div>
   `;
   document.body.appendChild(widget);
@@ -434,7 +518,7 @@
   // Function to toggle widget visibility
   function toggleWidgetVisibility() {
     if (widget.style.display === 'none' || widget.style.display === '') {
-      widget.style.display = 'block';
+      widget.style.display = 'flex';
     } else {
       widget.style.display = 'none';
     }
@@ -911,81 +995,71 @@
   initializeEventListeners();
 
   // Function to reset all accessibility settings
+ 
   function resetAllSettings() {
     // Confirm reset
     if (!confirm("Reset all accessibility settings? This will revert all changes made with this widget.")) {
       return;
     }
-
-    // Stop any ongoing speech
     stopReading();
 
-    // Reset font size
-    if (localStorage.getItem("fontSizeStep")) {
-      const currentStep = parseFloat(localStorage.getItem("fontSizeStep"));
-      if (currentStep !== 0) {
-        adjustFontSize(-currentStep);
-        localStorage.removeItem("fontSizeStep");
-      }
-    }
+    document.querySelectorAll("*").forEach(element => {
+      element.style.removeProperty('font-size');
+      element.style.removeProperty('font-family');
+      element.style.removeProperty('line-height');
+      element.style.removeProperty('letter-spacing');
+      element.style.removeProperty('color');
+      element.style.removeProperty('background-color');
+      element.style.removeProperty('filter');
+      element.style.removeProperty('cursor');
+      element.style.removeProperty('min-width');
+      element.style.removeProperty('min-height');
+      element.style.removeProperty('padding-left');
+      element.style.removeProperty('padding-right');
+      element.style.removeProperty('padding-top');
+      element.style.removeProperty('padding-bottom');
+      element.style.removeProperty('margin-right');
+      element.style.removeProperty('box-sizing');
+    });
 
-    // Reset dyslexic font
-    if (parseInt(localStorage.getItem('isDyslexicFontEnabled')) === 1) {
-      enableDyslexicFont(true);
-    }
+    document.querySelectorAll("[data-asw-orgFontFamily],[data-asw-orgLineHeight],[data-asw-orgLetterSpacing],[data-asw-orgContrastColor],[data-asw-orgContrastBgColor],[data-original-touch-styles]").forEach(el => {
+      el.removeAttribute('data-asw-orgFontFamily');
+      el.removeAttribute('data-asw-orgLineHeight');
+      el.removeAttribute('data-asw-orgLetterSpacing');
+      el.removeAttribute('data-asw-orgContrastColor');
+      el.removeAttribute('data-asw-orgContrastBgColor');
+      el.removeAttribute('data-original-touch-styles');
+    });
 
-    // Reset line height
-    if (parseInt(localStorage.getItem('isLineHeightEnabled')) === 1) {
-      adjustLineHeight();
-    }
+    localStorage.removeItem("fontSizeStep");
 
-    // Reset letter spacing
-    if (parseInt(localStorage.getItem('isLetterSpacingEnabled')) === 1) {
-      adjustLetterSpacing();
-    }
+    localStorage.removeItem('isDyslexicFontEnabled');
 
-    // Reset high contrast
-    if (parseInt(localStorage.getItem('isContrastEnabled')) === 1) {
-      adjustContrast(true);
-    }
+    localStorage.removeItem('isLineHeightEnabled');
 
-    // Reset highlighted links
-    if (parseInt(localStorage.getItem('isHighlightLinks')) === 1) {
-      enableHighlightLinks(true);
-    }
+    localStorage.removeItem('isLetterSpacingEnabled');
 
-    // Reset big cursor
-    if (parseInt(localStorage.getItem('isBigCursorEnabled')) === 1) {
-      enableBigCursor(true);
-    }
+    localStorage.removeItem('isContrastEnabled');
 
-    // Reset inverted colors
-    if (document.body.classList.contains('inverted-colors')) {
-      document.body.classList.remove('inverted-colors');
-      document.body.childNodes.forEach(child => {
-        if (child.nodeType === 1) {
-          child.classList.remove('inverted-colors');
-        }
-      });
-    }
+    localStorage.removeItem('isHighlightLinks');
+    document.body.classList.remove('highlight-links');
 
-    // Reset hidden images
-    if (document.body.classList.contains('hide-images')) {
-      document.body.classList.remove('hide-images');
-      document.querySelectorAll('div').forEach(div => {
-        div.classList.remove('hide-images');
-      });
-    }
+    localStorage.removeItem('isBigCursorEnabled');
 
-    // Reset saturation
-    document.body.style.removeProperty('--saturation');
+    document.body.classList.remove('inverted-colors');
     document.body.childNodes.forEach(child => {
       if (child.nodeType === 1) {
-        child.style.removeProperty('filter');
+        child.classList.remove('inverted-colors');
       }
     });
 
-    // Show success message
+    document.body.classList.remove('hide-images');
+    document.querySelectorAll('div').forEach(div => {
+      div.classList.remove('hide-images');
+    });
+
+    document.body.style.removeProperty('--saturation');
+
     alert("All accessibility settings have been reset to default.");
   }
 
