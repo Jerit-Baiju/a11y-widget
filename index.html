@@ -4,7 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://unpkg.com/i18next@21.6.14/dist/umd/i18next.min.js"></script>
   <title>Accessibility Features</title>
+   <style>
+      select {
+        position: fixed;
+        bottom: 20px;
+        right: 100px;
+        padding: 5px;
+        background-color: #3b82f6;
+        border-radius: 16px;
+        width: 56px;
+        height: 56px;
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      select:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(37, 99, 235, 0.3);
+      }
+      select:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 2px;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(37, 99, 235, 0.3);
+    }
+    </style>
 </head>
 
 <body>
@@ -14,7 +41,181 @@
     alt="this is a cat."
     srcset="">
   <p>This page demonstrates accessibility features like text resizing and contrast adjustment.</p>
-  <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
-</body>
+   <!-- Load widget -->
+    <script position="bottom-left">
+      const widgetScript = document.createElement("script");
+      widgetScript.src =
+        "script.js" ;
+      document.body.appendChild(widgetScript);
+
+      // i18n resources
+      const resources = {
+        en: {
+          translation: {
+            welcome_heading: "Welcome to the Accessible Page!",
+            welcome_paragraph: "This page demonstrates accessibility features like text resizing and contrast adjustment.",
+            toggle_accessibility: "Toggle Accessibility",
+            text_adjustment: "Text Adjustments",
+            increase_text: "Increase Text",
+            decrease_text: "Decrease Text",
+            line_height: "Line Height",
+            letter_spacing: "Letter Spacing",
+            dyslexic_font: "Dyslexic Font",
+            visual_preferences: "Visual Preferences",
+            invert_colors: "Invert Colors",
+            high_contrast: "High Contrast",
+            increase_saturation:"Increase Saturation",
+            decrease_saturation:"Decrease Saturation",
+            reading_assistance:"Reading Assistance",
+            read_screen:"Read Screen",
+            summarize:"Summarize",
+            check_images:"Check Images",
+            navigation:"Navigation",
+            gray_scale: "Gray Scale",
+            highlight_links: "Highlight Links",
+            big_cursor:"Big Cursor",
+            toggle_images:"Toggle Images",
+            reset_all_settings: "Reset All Settings",
+          },
+        },
+        ro: {
+          translation: {
+            welcome_heading: "Bine ați venit pe pagina accesibilă!",
+            welcome_paragraph: "Această pagină demonstrează funcții de accesibilitate precum redimensionarea textului și ajustarea contrastului.",
+            toggle_accessibility: "Comută accesibilitatea",
+            text_adjustment: "Ajustări de text",
+            increase_text: "Măriți textul",
+            decrease_text: "Reduceți textul",
+            line_height: "Înălțime rând",
+            letter_spacing: "Spațiere litere",
+            dyslexic_font: "Font dislexie",
+            visual_preferences: "Preferințe vizuale",
+            invert_colors: "Inversează culorile",
+            high_contrast: "Contrast ridicat",
+            increase_saturation:"Creșteți Saturația",
+            decrease_saturation:"Reduceți Saturația",
+            reading_assistance:"Ajutor Pentru Citire",
+            read_screen:"Citiți ecranul",
+            summarize:"Rezuma",
+            check_images:"Verificați imagini",
+            navigation:"Navigare",
+            gray_scale: "Scală de gri",
+            highlight_links: "Evidențiază linkurile",
+            big_cursor:"Cursor mare",
+            toggle_images:"Comutați Imagini",
+            reset_all_settings: "Resetați toate setările",
+          },
+        },
+      };
+
+      // Init i18n
+      i18next.init({
+        lng: "en",
+        debug: true,
+        resources,
+      });
+
+      function translateA11YWidget() {
+        let attempts = 0;
+        const maxAttempts = 20;
+
+        const tryTranslate = () => {
+          let allFound = true;
+
+          const translationList = [
+            {
+              selector: "#accessibility-widget h2",
+              key: "toggle_accessibility",
+            },
+            { selector: "#increase-text", key: "increase_text" },
+            { selector: "#decrease-text", key: "decrease_text" },
+            { selector: "#line-height", key: "line_height" },
+            { selector: "#letter-spacing", key: "letter_spacing" },
+            { selector: "#dyslexic-font", key: "dyslexic_font" },
+            { selector: "#invert-colors", key: "invert_colors" },
+            { selector: ".a11y-gray", key: "gray_scale" },
+            { selector: "#high-contrast", key: "high_contrast" },
+            { selector: "#increase-saturation", key: "increase_saturation" },
+            { selector: "#decrease-saturation", key: "decrease_saturation" },
+            { selector: "#toggle-reading", key: "read_screen" },
+            { selector: "#summarize", key: "summarize" },
+            { selector: "#check-images", key: "check_images" },
+            { selector: "#highlight-links", key: "highlight_links" },
+            { selector: "#big-cursor", key: "big_cursor" },
+            { selector: "#hide-images", key: "toggle_images" },
+            { selector: "#reset-all-settings", key: "reset_all_settings" },
+          ];
+
+         for (const { selector, key } of translationList) {
+            const el = document.querySelector(selector);
+             if (el) {
+              if (selector === "#increase-text" || selector === "#decrease-text" || selector === "#line-height" 
+              || selector === "#letter-spacing" || selector === "#dyslexic-font" || selector === "#invert-colors" 
+              || selector === "#high-contrast" || selector === "#increase-saturation" || selector === "#decrease-saturation"
+              || selector === "#toggle-reading" || selector === "#summarize" || selector === "#check-images"
+              || selector === "#highlight-links" || selector === "#big-cursor" || selector === "#hide-images"
+              || selector === "#reset-all-settings" && el.querySelector('svg')) {
+                const svg = el.querySelector('svg');
+                while (svg.nextSibling) {
+                  el.removeChild(svg.nextSibling);
+                }
+                el.appendChild(document.createTextNode(' ' + i18next.t(key)));
+              } else if (selector === "#toggle-reading" 
+              && el.querySelector('svg')) {
+                const svg = el.querySelector('svg');
+               while (svg.nextSibling) {
+              el.removeChild(svg.nextSibling);
+             }
+             el.appendChild(document.createTextNode(' ' + i18next.t(key)));
+            } else {
+            el.innerText = i18next.t(key);
+            }
+            } else {
+           allFound = false;
+         }
+      }
+
+          const sectionTitles = document.querySelectorAll(
+            ".widget-section-title"
+          );
+          if (sectionTitles.length >= 2) {
+            sectionTitles[0].innerText = i18next.t("text_adjustment");
+            sectionTitles[1].innerText = i18next.t("visual_preferences");
+            sectionTitles[2].innerText = i18next.t("reading_assistance");
+            sectionTitles[3].innerText = i18next.t("navigation");
+          } else {
+            allFound = false;
+          }
+
+           document.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = el.getAttribute("data-i18n");
+            el.innerText = i18next.t(key);
+          });
+
+          if (!allFound && attempts < maxAttempts) {
+            attempts++;
+            setTimeout(tryTranslate, 500);
+          }
+        };
+
+        tryTranslate();
+      }
+
+      widgetScript.onload = () => {
+        translateA11YWidget();
+
+        const selector = document.createElement("select");
+        selector.innerHTML = `
+        <option value="en">EN</option>
+        <option value="ro">RO</option>
+      `;
+        selector.onchange = function () {
+          i18next.changeLanguage(this.value, () => {
+            translateA11YWidget();
+          });
+        };
+        document.body.appendChild(selector);
+      };
+    </script>
 
 </html>
