@@ -1,4 +1,4 @@
-// v2.4.3
+// v2.4.4
 (function () {
   const style = document.createElement("style");
 
@@ -314,7 +314,7 @@
   const widget = document.createElement("div");
   widget.id = "accessibility-widget";
   widget.innerHTML = `
-    <h2>Accessibility Options</h2>
+    <h2>WebEase</h2>
     
     <div class="widget-section">
       <div class="widget-section-title">Text Adjustments</div>
