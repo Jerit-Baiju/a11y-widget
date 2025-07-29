@@ -849,9 +849,9 @@
 
   // Event Listeners
   toggleButton.addEventListener("click", toggleWidgetVisibility);
-  
+
   // Add keyboard event handling for accessibility
-  toggleButton.addEventListener("keydown", function(event) {
+  toggleButton.addEventListener("keydown", function (event) {
     // Trigger on Enter or Space key
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -883,6 +883,9 @@
         widget.style.display = 'none'; // Hide the widget before showing summary
         summarizeText(extractUniqueDocumentText()).then(summary => {
           showOverlay([summary]);
+        }).catch(error => {
+          console.error('Summarization failed:', error);
+          showOverlay(['We apologize, but we are unable to summarize the content at this time. Please try again later or contact support if the issue persists.']);
         })
       },
       "toggle-reading": () => {
@@ -1062,15 +1065,21 @@
         body: formData
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        // Handle API errors
+        if (data.error === 'quota_exceeded') {
+          return `Sorry, we've reached our daily limit for AI summarization. ${data.message}`;
+        } else {
+          return `We apologize for the inconvenience. ${data.message}`;
+        }
       }
 
-      const data = await response.json();
       return data.summary;
     } catch (error) {
       console.error('Error:', error);
-      throw error;
+      return "We apologize, but we're unable to summarize the content right now due to a network or service issue. Please check your internet connection and try again later.";
     } finally {
       loader.remove();
     }
