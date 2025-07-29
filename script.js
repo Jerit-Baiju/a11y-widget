@@ -1,4 +1,4 @@
-// v2.4.4
+// v2.4.5
 (function () {
   const style = document.createElement("style");
 
