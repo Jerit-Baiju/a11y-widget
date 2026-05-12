@@ -1,0 +1,17 @@
+{
+  "name": "a11y-widget",
+  "version": "2.5.0",
+  "description": "The **a11y-widget** is a lightweight, customizable accessibility widget built using **vanilla JavaScript** and **CSS**. It provides essential accessibility features such as text size adjustment, color inversion, high contrast mode, and image alt text validation for users. You can easily integrate this widget into any website using a simple CDN link.",
+  "main": "dist/a11y-widget.min.js",
+  "exports": "./dist/a11y-widget.min.js",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "terser": "^5.46.1"
+  }
+}

@@ -1,4 +1,3 @@
-// v2.4.5
 (function () {
   const style = document.createElement("style");
 
@@ -296,6 +295,67 @@
     }
       
   `;
+    const translations = {
+        en: {
+            title: "WebEase",
+            sectionTextAdjustments: "Text Adjustments",
+            increaseText: "Increase Text",
+            decreaseText: "Decrease Text",
+            lineHeight: "Line Height",
+            letterSpacing: "Letter Spacing",
+            dyslexicFont: "Dyslexic Font",
+            sectionVisualPrefs: "Visual Preferences",
+            invertColors: "Invert Colors",
+            highContrast: "High Contrast",
+            increaseSaturation: "Increase Saturation",
+            decreaseSaturation: "Decrease Saturation",
+            sectionReading: "Reading Assistance",
+            readScreen: "Read Screen",
+            summarize: "Summarize",
+            checkImages: "Check Images",
+            sectionNavigation: "Navigation",
+            highlightLinks: "Highlight Links",
+            bigCursor: "Big Cursor",
+            toggleImages: "Toggle Images",
+            resetAll: "Reset All Settings",
+            footerDev: "Developed by",
+            footerContribute: "Contribute"
+        },
+        de: {
+            title: "WebEase",
+            sectionTextAdjustments: "Texteinstellungen",
+            increaseText: "Text vergrößern",
+            decreaseText: "Text verkleinern",
+            lineHeight: "Zeilenhöhe",
+            letterSpacing: "Buchstabenabstand",
+            dyslexicFont: "Lese-Schriftart",
+            sectionVisualPrefs: "Visuelle Einstellungen",
+            invertColors: "Farben umkehren",
+            highContrast: "Hoher Kontrast",
+            increaseSaturation: "Sättigung erhöhen",
+            decreaseSaturation: "Sättigung verringern",
+            sectionReading: "Vorlesehilfe",
+            readScreen: "Bildschirm vorlesen",
+            summarize: "Zusammenfassen",
+            checkImages: "Bilder prüfen",
+            sectionNavigation: "Navigation",
+            highlightLinks: "Links hervorheben",
+            bigCursor: "Großer Cursor",
+            toggleImages: "Bilder ausblenden",
+            resetAll: "Alle Einstellungen zurücksetzen",
+            footerDev: "Entwickelt von",
+            footerContribute: "Mitwirken"
+        }
+    };
+    // todo: decision needed EN should be meaningful default/fallback
+    // other at one point other languages should be loaded from a json file
+    // currently there may only english, french, german, spanish and italian need,
+    // so simple translation solution is fine for now.
+    const getWidgetLanguage= () => {
+        const htmlLang = document.documentElement.lang || 'en';
+        const langCode = htmlLang.split('-')[0];
+        return translations[langCode] ? langCode : 'en';
+    };
 
   document.head.appendChild(style);
 
@@ -311,64 +371,68 @@
   document.body.appendChild(toggleButton);
 
   // Create the widget
-  const widget = document.createElement("div");
-  widget.id = "accessibility-widget";
-  widget.innerHTML = `
-    <h2>WebEase</h2>
-    
-    <div class="widget-section">
-      <div class="widget-section-title">Text Adjustments</div>
-      <div class="button-group">
-        <button id="increase-text" class="text-controls">Increase Text</button>
-        <button id="decrease-text" class="text-controls">Decrease Text</button>
-        <button id="line-height" class="text-controls">Line Height</button>
-        <button id="letter-spacing" class="text-controls">Letter Spacing</button>
-        <button id="dyslexic-font" class="text-controls">Dyslexic Font</button>
-      </div>
-    </div>
 
-    <div class="widget-section">
-      <div class="widget-section-title">Visual Preferences</div>
-      <div class="button-group">
-        <button id="invert-colors" class="visual-controls">Invert Colors</button>
-        <button id="high-contrast" class="visual-controls">High Contrast</button>
-        <button id="increase-saturation" class="visual-controls">Increase Saturation</button>
-        <button id="decrease-saturation" class="visual-controls">Decrease Saturation</button>
-      </div>
-    </div>
+    const lang = getWidgetLanguage();
+    const t = translations[lang];
 
-    <div class="widget-section">
-      <div class="widget-section-title">Reading Assistance</div>
-      <div class="button-group">
-        <button id="toggle-reading" class="reading-controls">Read Screen</button>
-        <button id="summarize" class="reading-controls">Summarize</button>
-        <button id="check-images" class="reading-controls">Check Images</button>
-      </div>
+    const widget = document.createElement("div");
+    widget.id = "accessibility-widget";
+    widget.innerHTML = `
+  <h2>${t.title}</h2>
+  
+  <div class="widget-section">
+    <div class="widget-section-title">${t.sectionTextAdjustments}</div>
+    <div class="button-group">
+      <button id="increase-text" class="text-controls">${t.increaseText}</button>
+      <button id="decrease-text" class="text-controls">${t.decreaseText}</button>
+      <button id="line-height" class="text-controls">${t.lineHeight}</button>
+      <button id="letter-spacing" class="text-controls">${t.letterSpacing}</button>
+      <button id="dyslexic-font" class="text-controls">${t.dyslexicFont}</button>
     </div>
+  </div>
 
-    <div class="widget-section">
-      <div class="widget-section-title">Navigation</div>
-      <div class="button-group">
-        <button id="highlight-links" class="navigation-controls">Highlight Links</button>
-        <button id="big-cursor" class="navigation-controls">Big Cursor</button>
-        <button id="hide-images" class="navigation-controls">Toggle Images</button>
-      </div>
+  <div class="widget-section">
+    <div class="widget-section-title">${t.sectionVisualPrefs}</div>
+    <div class="button-group">
+      <button id="invert-colors" class="visual-controls">${t.invertColors}</button>
+      <button id="high-contrast" class="visual-controls">${t.highContrast}</button>
+      <button id="increase-saturation" class="visual-controls">${t.increaseSaturation}</button>
+      <button id="decrease-saturation" class="visual-controls">${t.decreaseSaturation}</button>
     </div>
+  </div>
 
-    <button id="reset-all-settings">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-        <path d="M3 3v5h5"></path>
-      </svg>
-      Reset All Settings
-    </button>
-
-    <div class="footer">
-      Developed by <a href="https://mariancollege.org" target="_blank">mariancollege.org</a> |
-      <a href="https://github.com/Jerit-Baiju/a11y-widget/" target="_blank">Contribute</a>
+  <div class="widget-section">
+    <div class="widget-section-title">${t.sectionReading}</div>
+    <div class="button-group">
+      <button id="toggle-reading" class="reading-controls">${t.readScreen}</button>
+      <button id="summarize" class="reading-controls">${t.summarize}</button>
+      <button id="check-images" class="reading-controls">${t.checkImages}</button>
     </div>
-  `;
-  document.body.appendChild(widget);
+  </div>
+
+  <div class="widget-section">
+    <div class="widget-section-title">${t.sectionNavigation}</div>
+    <div class="button-group">
+      <button id="highlight-links" class="navigation-controls">${t.highlightLinks}</button>
+      <button id="big-cursor" class="navigation-controls">${t.bigCursor}</button>
+      <button id="hide-images" class="navigation-controls">${t.toggleImages}</button>
+    </div>
+  </div>
+
+  <button id="reset-all-settings">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+      <path d="M3 3v5h5"></path>
+    </svg>
+    ${t.resetAll}
+  </button>
+
+  <div class="footer">
+    ${t.footerDev} <a href="https://mariancollege.org" target="_blank">mariancollege.org</a> |
+    <a href="https://github.com/Jerit-Baiju/a11y-widget/" target="_blank">${t.footerContribute}</a>
+  </div>
+`;
+    document.body.appendChild(widget);
 
   // Utility Functions
   const toggleClassOnBody = (className) => {
