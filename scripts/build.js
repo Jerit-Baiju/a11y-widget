@@ -13,8 +13,9 @@ const header = `/*!
  * Copyright (c) Jerit Baiju (https://github.com/Jerit-Baiju)
  */\n`;
 
-// Minify with terser (assuming terser is installed locally as dev dependency)
-execSync('npx terser src/a11y-widget.js -o dist/a11y-widget.min.js --compress --mangle', { stdio: 'inherit' });
+// Minify root source for stable CDN path compatibility
+fs.mkdirSync('dist', { recursive: true });
+execSync('npx terser script.js -o dist/a11y-widget.min.js --compress --mangle', { stdio: 'inherit' });
 
 // Prepend header
 const minified = fs.readFileSync('dist/a11y-widget.min.js', 'utf8');
