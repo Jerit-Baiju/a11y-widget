@@ -346,7 +346,32 @@
             resetAll: "Alle Einstellungen zurücksetzen",
             footerDev: "Entwickelt von",
             footerContribute: "Mitwirken"
-        }
+        },
+        ta: {
+            title: "WebEase",
+            sectionTextAdjustments: "உரை அமைப்புகள்",
+            increaseText: "உரையை பெரிதாக்கு",
+            decreaseText: "உரையை சிறிதாக்கு",
+            lineHeight: "வரி உயரம்",
+            letterSpacing: "எழுத்து இடைவெளி",
+            dyslexicFont: "எளிதில் படிக்கக்கூடிய எழுத்துரு",
+            sectionVisualPrefs: "காட்சி அமைப்புகள்",
+            invertColors: "நிறங்களை மாற்று",
+            highContrast: "அதிக மாறுபாடு",
+            increaseSaturation: "நிற தீவிரத்தை அதிகரி",
+            decreaseSaturation: "நிற தீவிரத்தை குறை",
+            sectionReading: "வாசிப்பு உதவி",
+            readScreen: "திரையை வாசி",
+            summarize: "சுருக்கம் செய்",
+            checkImages: "படங்களை சரிபார்",
+            sectionNavigation: "வழிசெலுத்தல்",
+            highlightLinks: "இணைப்புகளை முன்னிலைப்படுத்து",
+            bigCursor: "பெரிய கர்சர்",
+            toggleImages: "படங்களை காட்டு / மறை",
+            resetAll: "அனைத்து அமைப்புகளையும் மீட்டமை",
+            footerDev: "உருவாக்கியது",
+            footerContribute: "பங்களிக்கவும்"
+        } 
     };
     // todo: decision needed EN should be meaningful default/fallback
     // other at one point other languages should be loaded from a json file
