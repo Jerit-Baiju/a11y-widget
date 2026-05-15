@@ -1,4 +1,4 @@
-// v2.5.3
+// v2.5.4 - Added ta language
 (function () {
   const style = document.createElement("style");
 
