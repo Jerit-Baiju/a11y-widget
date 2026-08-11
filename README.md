@@ -1,6 +1,9 @@
 # a11y-widget
 
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=jerit&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/jerit)
+
 The **a11y-widget** is a lightweight, customizable accessibility widget built using **vanilla JavaScript** and **CSS**. It provides essential accessibility features such as text size adjustment, color inversion, high contrast mode, and image alt text validation for users. You can easily integrate this widget into any website using a simple CDN link.
+
 
 ## Lighthouse Performance
 
@@ -48,3 +51,10 @@ Available position options:
 - `top-right`: Places the widget in the top right corner
 - `bottom-left`: Places the widget in the bottom left corner
 - `bottom-right`: Places the widget in the bottom right corner (default)
+
+## Support
+
+If you find this project useful, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=jerit&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/jerit)
+
