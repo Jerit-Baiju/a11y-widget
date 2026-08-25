@@ -1152,6 +1152,8 @@
       formData.append('data', text)
       const response = await fetch('https://a11y-widget.jerit.in/summarize', {
         method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
         body: formData
       });
 
